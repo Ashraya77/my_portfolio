@@ -2,6 +2,7 @@ import { About } from "@/components/sections/About";
 import { Contact } from "@/components/sections/Contact";
 import { Hero } from "@/components/sections/Hero";
 import { TechStack } from "@/components/sections/TechStack";
+import { Projects } from "@/components/Projects";
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
       <About />
       <TechStack />
 
-      {/* Projects section will go here. */}
+      <Projects />
       <Contact />
     </main>
   );

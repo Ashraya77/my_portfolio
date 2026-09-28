@@ -2,6 +2,7 @@
 
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { Reveal } from "@/components/motion/Reveal";
 import { PillLabel } from "@/components/PillLabel";
 import { SocialIconButtons, type SocialLinks } from "@/components/SocialIconButtons";
 
@@ -29,13 +30,13 @@ function getErrorMessage(payload: unknown) {
 }
 
 const labelClass =
-  "text-[10px] font-semibold uppercase tracking-[0.22em] text-fg-muted";
+  "text-[10px] font-semibold uppercase tracking-[0.22em] text-fg-muted transition-transform duration-300 group-focus-within:-translate-y-0.5";
 const fieldClass =
-  "w-full border border-border bg-transparent px-4 py-3 text-base text-fg outline-none transition-colors placeholder:text-fg-muted focus:border-fg";
+  "w-full border border-border bg-transparent px-4 py-3 text-base text-fg outline-none transition-colors duration-300 placeholder:text-fg-muted focus:border-fg";
 
 export function Contact({
   description = "Have a project in mind or just want to say hi? My inbox is always open.",
-  email = "hello@example.com",
+  email = "aashray851@gmail.com",
   headline = "Let's build something together.",
   name = "Ashraya",
   socialLinks,
@@ -76,7 +77,7 @@ export function Contact({
 
   return (
     <section
-      className="relative overflow-hidden bg-bg px-6 pt-28 pb-8 text-fg sm:px-10 sm:pt-36 lg:px-12 lg:pt-44"
+      className="relative overflow-hidden border-t border-border bg-bg px-6 pt-28 pb-8 text-fg sm:px-10 sm:pt-36 lg:px-12 lg:pt-44"
       id="contact"
     >
       <div className="mx-auto grid max-w-6xl gap-14 lg:grid-cols-2 lg:items-center lg:gap-20">
@@ -102,7 +103,7 @@ export function Contact({
         </div>
 
         {/* Right: bordered form card */}
-        <div className="border border-border p-6 sm:p-10">
+        <Reveal className="border border-border p-6 sm:p-10" delay={0.1}>
           {status === "success" ? (
             <div className="py-12 text-center sm:py-16" role="status">
               <p className="font-display text-4xl font-black italic leading-none tracking-[-0.05em] sm:text-5xl">
@@ -119,7 +120,7 @@ export function Contact({
                 <input autoComplete="off" id="website" name="website" tabIndex={-1} type="text" />
               </div>
 
-              <div className="grid gap-2">
+              <div className="group grid gap-2">
                 <label className={labelClass} htmlFor="name">
                   Name
                 </label>
@@ -135,7 +136,7 @@ export function Contact({
                 />
               </div>
 
-              <div className="grid gap-2">
+              <div className="group grid gap-2">
                 <label className={labelClass} htmlFor="email">
                   Email
                 </label>
@@ -151,12 +152,13 @@ export function Contact({
                 />
               </div>
 
-              <div className="grid gap-2">
+              <div className="group grid gap-2">
                 <label className={labelClass} htmlFor="message">
                   Message
                 </label>
                 <textarea
                   className={`${fieldClass} min-h-36 resize-y`}
+                  data-lenis-prevent
                   id="message"
                   maxLength={2000}
                   name="message"
@@ -181,12 +183,12 @@ export function Contact({
               </button>
             </form>
           )}
-        </div>
+        </Reveal>
       </div>
 
-      <footer className="mx-auto mt-20 max-w-6xl border-t border-border pt-6 text-center text-xs text-fg-muted sm:mt-28">
+      <Reveal className="mx-auto mt-20 max-w-6xl border-t border-border pt-6 text-center text-xs text-fg-muted sm:mt-28">
         {"\u00A9"} 2026 {name}. All rights reserved.
-      </footer>
+      </Reveal>
     </section>
   );
 }

@@ -5,7 +5,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 
 const SESSION_KEY = "portfolio-loading-screen-seen";
 const LETTER_INTERVAL_MS = 90;
-const HOLD_DURATION_MS = 400;
+const HOLD_DURATION_MS = 900;
 
 const subscribeToSessionStorage = () => () => {};
 const getSessionStorageSnapshot = () =>

@@ -11,6 +11,8 @@ import {
   SiVercel,
 } from "react-icons/si";
 import { Marquee } from "@/components/Marquee";
+import { Reveal } from "@/components/motion/Reveal";
+import { Stagger } from "@/components/motion/Stagger";
 import { PillLabel } from "@/components/PillLabel";
 
 const technologies = [
@@ -48,17 +50,15 @@ export function TechStack({
   ));
 
   return (
-    <section className="w-full overflow-hidden bg-bg pt-0 pb-28 text-fg sm:pt-0 sm:pb-36 lg:pt-0 lg:pb-44">
-      <div className="mx-auto flex max-w-3xl flex-col items-center px-6 text-center sm:px-10">
+    <section className="w-full overflow-hidden border-t border-border bg-bg pt-0 pb-28 text-fg sm:pt-0 sm:pb-36 lg:pt-0 lg:pb-44">
+      <Stagger className="mx-auto flex max-w-3xl flex-col items-center px-6 text-center sm:px-10">
         <PillLabel>My Tech Stack</PillLabel>
-        <p className="mt-7 max-w-xl text-base leading-7 text-fg-muted sm:text-lg">
-          {description}
-        </p>
-      </div>
+        <p className="mt-7 max-w-xl text-base leading-7 text-fg-muted sm:text-lg">{description}</p>
+      </Stagger>
 
-      <div className="mt-14 sm:mt-18">
+      <Reveal className="mt-14 sm:mt-18">
         <Marquee items={items} speed={speed} />
-      </div>
+      </Reveal>
     </section>
   );
 }

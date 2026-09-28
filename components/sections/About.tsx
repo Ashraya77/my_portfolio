@@ -1,4 +1,6 @@
 import { PillLabel } from "@/components/PillLabel";
+import { MaskText } from "@/components/motion/MaskText";
+import { Reveal } from "@/components/motion/Reveal";
 
 const defaultStats = [
   { value: "15+", label: "Projects Involvements" },
@@ -23,17 +25,15 @@ export function About({
   stats = defaultStats,
 }: AboutProps) {
   return (
-    <section className="relative overflow-hidden bg-bg px-6 pt-28 pb-16 text-fg sm:px-10 sm:pt-36 sm:pb-20 lg:px-12 lg:pt-44 lg:pb-24">
+    <section className="relative overflow-hidden border-t border-border bg-bg px-6 pt-28 pb-16 text-fg sm:px-10 sm:pt-36 sm:pb-20 lg:px-12 lg:pt-44 lg:pb-24" id="about">
       <div className="mx-auto flex max-w-7xl flex-col items-center text-center">
-        <PillLabel>About Me</PillLabel>
+        <Reveal><PillLabel>About Me</PillLabel></Reveal>
 
-        <h2 className="font-display mt-8 w-full max-w-none whitespace-pre-line text-[clamp(2.5rem,5.5vw,5.5rem)] font-black italic leading-[0.9] tracking-[-0.05em] text-fg">
-          {headline}
-        </h2>
+        <MaskText as="h2" className="font-display mt-8 w-full max-w-none text-[clamp(2.5rem,5.5vw,5.5rem)] font-black italic leading-[0.9] tracking-[-0.05em] text-fg" text={headline} />
 
-        <p className="mt-8 max-w-4xl text-base leading-7 text-fg-muted sm:text-lg">
-          {description}
-        </p>
+        <Reveal className="mt-8 max-w-4xl">
+          <p className="text-base leading-7 text-fg-muted sm:text-lg">{description}</p>
+        </Reveal>
 
       <div className="relative mt-10 w-full sm:mt-28">
   <div className="mx-auto grid max-w-3xl grid-cols-3 gap-4 text-left sm:gap-8">

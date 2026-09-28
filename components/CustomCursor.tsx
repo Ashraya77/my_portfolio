@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 
 type Bounds = {
   bottom: number;
@@ -11,12 +11,13 @@ type Bounds = {
 
 const INTERACTIVE_SELECTOR = 'a, button, [role="button"], [data-cursor="wrap"]';
 const TEXT_ENTRY_SELECTOR = "input, textarea";
-const CORNER_SIZE = 10;
-const DEFAULT_HALF_SIZE = 22;
-const FRAME_PADDING = 8;
+const CORNER_SIZE = 8;
+const DEFAULT_HALF_SIZE = 18;
+const FRAME_PADDING = 6;
 const PRESS_INSET = 6;
 const IDLE_ROTATION_SPEED = (Math.PI * 2) / 8000;
 
+const emptySubscribe = () => () => {};
 function isTextEntry(target: EventTarget | null) {
   return target instanceof Element && Boolean(target.closest(TEXT_ENTRY_SELECTOR));
 }
@@ -30,18 +31,11 @@ function getInteractiveTarget(target: EventTarget | null) {
 }
 
 export function CustomCursor() {
-  const [isEnabled, setIsEnabled] = useState(false);
+  const isEnabled = useSyncExternalStore(emptySubscribe, () => !window.matchMedia("(pointer: coarse)").matches, () => false);
   const cursorRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLSpanElement>(null);
   const cornerRefs = useRef<Array<HTMLSpanElement | null>>([]);
 
-  useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      return;
-    }
-
-    setIsEnabled(true);
-  }, []);
 
   useEffect(() => {
     if (!isEnabled) {

@@ -2,6 +2,12 @@ type SocialPlatform = "github" | "linkedin" | "instagram";
 
 export type SocialLinks = Partial<Record<SocialPlatform, string>>;
 
+const defaultSocialLinks: Record<SocialPlatform, string> = {
+  github: "https://github.com/Ashraya77",
+  instagram: "https://www.instagram.com/aashrayx7/",
+  linkedin: "https://www.linkedin.com/in/aashray-roka-808158384/",
+};
+
 type SocialIconButtonsProps = {
   className?: string;
   links?: SocialLinks;
@@ -44,13 +50,13 @@ function SocialIcon({ platform }: { platform: SocialPlatform }) {
 }
 
 const buttonClassName =
-  "grid size-10 place-items-center rounded-full border border-fg text-fg transition-colors hover:bg-fg hover:text-bg";
+  "grid size-10 place-items-center rounded-full border-2 border-fg text-fg transition-colors hover:bg-fg hover:text-bg";
 
 export function SocialIconButtons({ className, links }: SocialIconButtonsProps) {
   return (
     <div className={`flex gap-3 ${className ?? ""}`.trim()}>
       {socialButtons.map(({ label, platform }) => {
-        const href = links?.[platform];
+        const href = links?.[platform] ?? defaultSocialLinks[platform];
 
         return href ? (
           <a
