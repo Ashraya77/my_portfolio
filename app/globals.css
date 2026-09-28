@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #000000;
+  --fg: #ffffff;
+  --fg-muted: #a3a3a3;
+  --border: rgba(255, 255, 255, 0.15);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-border: var(--border);
+  --font-display: var(--font-archivo), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+}
+
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll var(--marquee-duration, 24s) linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation-play-state: paused;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: none !important;
+  }
+
+  .has-custom-cursor input,
+  .has-custom-cursor textarea {
+    cursor: text !important;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: difference;
+  transition: opacity 160ms ease;
+}
+
+.custom-cursor.is-visible {
+  opacity: 1;
+}
+
+.custom-cursor__dot,
+.custom-cursor__corner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  color: #ffffff;
+  will-change: transform;
+}
+
+.custom-cursor__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: currentColor;
+  transition: scale 180ms ease;
+}
+
+.custom-cursor__corner {
+  width: 10px;
+  height: 10px;
+  box-sizing: border-box;
+  transition:
+    transform 360ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 160ms ease;
+}
+
+.custom-cursor__corner--top-left {
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+
+.custom-cursor__corner--top-right {
+  border-top: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+}
+
+.custom-cursor__corner--bottom-right {
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+}
+
+.custom-cursor__corner--bottom-left {
+  border-bottom: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+
+.custom-cursor.is-typing .custom-cursor__corner {
+  opacity: 0;
+}
+
+.custom-cursor.is-typing .custom-cursor__dot {
+  scale: 0.6;
+}
+
+.cursor-hovered {
+  scale: 1.03;
+  transition: scale 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor__corner {
+    transition-duration: 140ms;
+  }
 }
