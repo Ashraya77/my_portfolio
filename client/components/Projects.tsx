@@ -25,7 +25,7 @@ function ProjectStage({ project, priority }: { project: Project; priority: boole
   const imageSources = project.images?.length ? project.images : project.image ? [project.image] : [];
   const stageContent = type === "app" ? (
     <div
-      className="group relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-fg/5 p-4 sm:p-6"
+      className="group relative flex w-full aspect-[16/10] items-center justify-center overflow-hidden bg-fg/5 p-4 sm:p-6"
       style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.18) 1px, transparent 1px)", backgroundSize: "14px 14px" }}
     >
       <div className="flex h-full items-center justify-center gap-3 sm:gap-5">
@@ -41,7 +41,7 @@ function ProjectStage({ project, priority }: { project: Project; priority: boole
       </div>
     </div>
   ) : (
-    <div className="group relative aspect-[16/10] overflow-hidden bg-fg/5">
+    <div className="group relative w-full aspect-[16/10] overflow-hidden bg-fg/5">
       <div className="relative z-10 flex h-7 items-center border-b border-border bg-bg px-3">
         <span aria-hidden="true" className="flex gap-1.5">
           <span className="size-2 rounded-full border border-fg/60" />
@@ -51,15 +51,17 @@ function ProjectStage({ project, priority }: { project: Project; priority: boole
         {projectDomain(project.liveUrl) ? <span className="absolute left-1/2 max-w-[55%] -translate-x-1/2 truncate rounded-full border border-border px-3 py-0.5 text-[9px] text-fg-muted">{projectDomain(project.liveUrl)}</span> : null}
       </div>
       {project.image ? (
-        <Image alt={`${project.title} website homepage screenshot`} className="object-cover object-top grayscale transition-transform duration-700 ease-out group-hover:scale-[1.04]" fill priority={priority} sizes={stageSizes} src={project.image} />
+        <div className="absolute inset-x-0 bottom-0 top-7">
+          <Image alt={`${project.title} website homepage screenshot`} className="object-cover object-top grayscale transition-transform duration-700 ease-out group-hover:scale-[1.04]" fill priority={priority} sizes={stageSizes} src={project.image} />
+        </div>
       ) : null}
       {project.liveUrl ? <span aria-hidden="true" className="pointer-events-none absolute bottom-4 left-4 translate-y-2 border border-fg/60 bg-bg px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">View project -&gt;</span> : null}
     </div>
   );
 
   return (
-    <div className="border border-border">
-      {project.liveUrl && type === "web" ? <a aria-label={`View ${project.title}`} className="block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fg" href={project.liveUrl} rel="noreferrer" target="_blank">{stageContent}</a> : stageContent}
+    <div className="w-full min-w-0 border border-border">
+      {project.liveUrl && type === "web" ? <a aria-label={`View ${project.title}`} className="block w-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-fg" href={project.liveUrl} rel="noreferrer" target="_blank">{stageContent}</a> : stageContent}
     </div>
   );
 }
@@ -75,8 +77,17 @@ function ProjectInfo({ project, index }: { project: Project; index: number }) {
       </div>
 
       <div className="py-8 lg:py-6">
-        <MaskText as="h3" className="font-display text-[clamp(2rem,3.6vw,3.5rem)] font-black italic leading-none tracking-[-0.05em] text-fg" text={project.title} />
+        <MaskText as="h3" className="font-display break-words text-[clamp(2rem,3vw,3.25rem)] font-black italic leading-none tracking-[-0.05em] text-fg" text={project.title} />
+        {project.tagline ? <p className="mt-4 text-sm font-semibold leading-6 text-fg sm:text-base">{project.tagline}</p> : null}
         <p className="mt-4 max-w-[42ch] text-sm leading-6 text-fg-muted sm:text-base sm:leading-7">{project.description}</p>
+        {project.role || project.year ? (
+          <dl className="mt-5 grid grid-cols-2 gap-4 text-[10px] font-semibold uppercase tracking-[0.12em] text-fg-muted">
+            {project.role ? <div><dt>Role</dt><dd className="mt-1 text-fg">{project.role}</dd></div> : null}
+            {project.year ? <div><dt>Year</dt><dd className="mt-1 text-fg">{project.year}</dd></div> : null}
+          </dl>
+        ) : null}
+        {project.features?.length ? <ul className="mt-5 list-inside list-disc space-y-1 text-sm leading-6 text-fg-muted" aria-label={`${project.title} features`}>{project.features.map((feature) => <li key={feature}>{feature}</li>)}</ul> : null}
+        {project.stack?.length ? <ul className="mt-5 flex flex-wrap gap-2" aria-label={`${project.title} technology stack`}>{project.stack.map((technology) => <li className="border border-border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-fg-muted" key={technology}>{technology}</li>)}</ul> : null}
         {project.tags?.length ? <ul className="mt-5 flex flex-wrap gap-2" aria-label={`${project.title} technologies`}>{project.tags.slice(0, 5).map((tag) => <li className="border border-border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-fg-muted" key={tag}>{tag}</li>)}</ul> : null}
       </div>
 
@@ -136,10 +147,9 @@ function StackingCard({ index, onActive, project }: { index: number; onActive: (
         <div className="grid gap-6 lg:h-full lg:grid-cols-12 lg:gap-8">
           <motion.div
             className="lg:col-span-8 lg:flex lg:items-center"
+            animate={reducedMotion || active ? { clipPath: "inset(0 0 0 0)" } : { clipPath: "inset(100% 0 0 0)" }}
             initial={reducedMotion ? false : { clipPath: "inset(100% 0 0 0)" }}
             transition={{ duration: reducedMotion ? 0 : duration.slow, ease: ease.dramatic }}
-            viewport={{ amount: 0.25, once: true }}
-            whileInView={reducedMotion ? undefined : { clipPath: "inset(0 0 0 0)" }}
           >
             <ProjectStage priority={index === 0} project={project} />
           </motion.div>
