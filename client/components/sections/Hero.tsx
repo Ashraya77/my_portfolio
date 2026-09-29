@@ -1,6 +1,6 @@
 import { FileText, Folder } from "lucide-react";
+import Image from "next/image";
 import { SocialIconButtons } from "@/components/SocialIconButtons";
-import { ColorRevealImage } from "@/components/ColorRevealImage";
 import { HeroMenu } from "@/components/HeroMenu";
 import { ScrollLink } from "@/components/ScrollLink";
 import { MaskText } from "@/components/motion/MaskText";
@@ -21,7 +21,7 @@ export function Hero({
     <section className="grid min-h-svh overflow-x-clip bg-bg lg:min-h-screen lg:grid-cols-2" id="home">
       <Reveal className="min-h-[46svh] sm:min-h-[54svh] lg:min-h-screen" delay={0.42} onLoad>
       <div className="relative min-h-[46svh] overflow-hidden sm:min-h-[54svh] lg:min-h-screen">
-        <ColorRevealImage alt={`${name} portrait`} priority sizes="(max-width: 1023px) 100vw, 50vw" src={imageSrc} />
+        <Image alt={`${name} portrait`} className="object-cover grayscale" fill priority sizes="(max-width: 1023px) 100vw, 50vw" src={imageSrc} />
       </div>
       </Reveal>
 
